@@ -73,7 +73,7 @@ Develop a frontend-only Movie Suggestion App using React, interfacing with the O
  ![pagination](./src//assets/images/Screenshot%202023-12-01%20030800.png)
 
 ## Getting Started
-Install dependencies: npm install Run the development server: npm run dev Available Scripts
+Install dependencies: `npm install` Run the development server: `npm run dev` Available Scripts
 ```
 npm run dev
 ```
@@ -83,6 +83,15 @@ Runs the development server.
 npm run build
 ```
 Builds the app for production. The build artifacts will be located in the dist/ directory.
+
+[Github](https://github.com/shabbiryahya/React-Movie-Suggestion-App)
+&nbsp;
+[Deployed](https://masai-chi-movie-app.netlify.app/)&nbsp;
+[Contact](tel:+919574713452) &nbsp;
+[Instagram](https://www.instagram.com/ifsebyy)
+
+
+
 
 
 
