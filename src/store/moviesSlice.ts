@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchMovies, fetchMovie } from "@utils/requests";
 import type { Movie } from "types";
-import { PayloadAction } from '@reduxjs/toolkit';
 export interface MoviesState {
   movies: Movie[];
   currentMovie: Movie | null;
@@ -14,7 +13,6 @@ export interface MoviesState {
 export interface FilterState {
   year?: string;
   type?: string;
-  sort?: string; 
 }
 
 export type MoviesSearchState = MoviesState & FilterState;
@@ -25,7 +23,6 @@ const initialState: MoviesSearchState = {
   searchTerm: "Cartoon",
   year: undefined,
   type: undefined,
-  sort: undefined, 
   status: "idle",
   error: null,
   totalResults: 0,
@@ -38,15 +35,13 @@ export const fetchMoviesAsync = createAsyncThunk(
     page,
     year,
     type,
-    sort,
   }: {
     searchTerm: string;
     page: number;
     year?: string;
     type?: string;
-    sort?: string; 
   }) => {
-    const response = await fetchMovies(searchTerm, page, year, type,sort);
+    const response = await fetchMovies(searchTerm, page, year, type);
     return response;
   }
 );
@@ -59,6 +54,11 @@ export const fetchMovieAsync = createAsyncThunk(
   }
 );
 
+
+
+
+
+
 const moviesSlice = createSlice({
   name: "movies",
   initialState,
@@ -70,19 +70,38 @@ const moviesSlice = createSlice({
       state.year = action.payload.year;
       state.type = action.payload.type;
     },
-    sortMovies: (state, action: PayloadAction<{field: string, order: string}>) => {
-      const sortedMovies = [...state.movies]; // create a copy of the movies array
-      if (action.payload.field === 'Year') {
-        sortedMovies.sort((a, b) => (a.Year && b.Year) ? (a.Year - b.Year) * (action.payload.order === 'asc' ? 1 : -1) : 0);
-      } else if (action.payload.field === 'Ratings') {
-        sortedMovies.sort((a, b) => {
-          const ratingA = a.Ratings ? parseFloat(a.Ratings[0].Value) : 0;
-          const ratingB = b.Ratings ? parseFloat(b.Ratings[0].Value) : 0;
-          return (ratingA - ratingB) * (action.payload.order === 'asc' ? 1 : -1);
-        });
-      }
-      state.movies = sortedMovies; // set the sorted array as the new state
+
+    
+    sortMovies: (state, action) => {
+      const sortedMovies = [...state.movies];
+      console.log(sortedMovies);
+      
+      sortedMovies.sort((a, b) => {
+        const aValue = a[action.payload.criteria];
+        const bValue = b[action.payload.criteria];
+
+        console.log(a.imdbVo);
+        
+    
+        if (typeof aValue === 'string' && typeof bValue === 'string') {
+          // Compare strings
+
+          return action.payload.order === 'ascending'
+            ? aValue.localeCompare(bValue)
+            : bValue.localeCompare(aValue);
+        } else if (typeof aValue === 'number' && typeof bValue === 'number') {
+          // Compare numbers
+          return action.payload.order === 'ascending'
+            ? aValue - bValue
+            : bValue - aValue;
+        } else {
+          return 0;
+        }
+      });
+
+      state.movies = sortedMovies;
     },
+      
     
   },
   extraReducers: (builder) => {
@@ -115,8 +134,9 @@ const moviesSlice = createSlice({
           : (state.error = "Something went wrong");
       });
   },
+
+  
 });
 
 export const { updateSearchTerm, updateFilter } = moviesSlice.actions;
 export default moviesSlice.reducer;
-export const { sortMovies } = moviesSlice.actions;

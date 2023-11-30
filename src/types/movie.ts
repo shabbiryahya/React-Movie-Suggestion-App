@@ -1,4 +1,5 @@
 export interface Movie {
+  [key: string]: string | number | boolean | Rating[] | undefined;
   Title?: string;
   Year?: number;
   Rated?: string;

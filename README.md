@@ -45,3 +45,18 @@ Develop a frontend-only Movie Suggestion App using React, interfacing with the O
 - Implement pagination or infinite scrolling for search results.
 - Incorporate animations or transitions for a better user experience.
 
+
+## Getting Started
+Install dependencies: npm install Run the development server: npm run dev Available Scripts
+```
+npm run dev
+```
+Runs the development server.
+
+```
+npm run build
+```
+Builds the app for production. The build artifacts will be located in the dist/ directory.
+
+
+

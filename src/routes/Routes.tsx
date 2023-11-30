@@ -5,6 +5,8 @@ import Home from "./Home";
 import Movie from "./Movie";
 import Watchlist from "./Watchlist";
 import Auth from "./Auth";
+import SignupForm from "@components/block/SignupForm";
+
 
 export default function AppRoutes() {
   return (
@@ -21,8 +23,8 @@ export default function AppRoutes() {
       <Route path="/login" element={<AuthLayout />}>
         <Route index element={<Auth />} />
       </Route>
-      <Route path="/register" element={<AuthLayout />}>
-        <Route index element={<h1>Register</h1>} />
+      <Route path="/register" element={ <SignupForm/>}>
+        {/* <Route index element={<h1>Register</h1>} /> */}
       </Route>
     </Routes>
   );

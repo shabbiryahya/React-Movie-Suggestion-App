@@ -7,12 +7,10 @@ export const fetchMovies = async (
   page: number,
   year?: string,
   type?: string,
-  sort?: string,
 ): Promise<MovieSearchResult> => {
   let query = `${apiUrl}?apikey=${apikey}&s=${searchTerm}&page=${page}`;
   if (year) query += `&y=${year}`;
   if (type) query += `&type=${type}`;
-  if (sort) query += `&sort=${sort}`;
   try {
     const response = await fetch(query);
     const data = await response.json();
